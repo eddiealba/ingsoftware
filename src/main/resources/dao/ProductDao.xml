@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bo.ucb.edu.ingsoft.dao.ProductDao">
+
+
+    <insert id="createProduct" parameterType="bo.ucb.edu.ingsoft.model.Product">
+        INSERT INTO product
+        VALUES (
+            null, #{brandId}, #{productName}, #{tagId}, #{detail},
+            #{model}, #{price}, #{stock}, #{description}, #{storeAvailable},#{deliveryAvailable},
+            #{image}, 1, #{txId},#{txHost}, #{txUserId}, #{txDate}
+        )
+    </insert>
+
+    <update id="updateProduct" parameterType="bo.ucb.edu.ingsoft.model.Product">
+        UPDATE product
+        SET price = #{price}, stock = #{stock}, store_available = #{storeAvailable},delivery_available = #{deliveryAvailable},
+            tx_id = #{txId}, tx_host= #{txHost}, tx_user_id= #{txUserId}, tx_date= #{txDate}
+        WHERE product_id = #{productId}
+        AND tx_status=1
+    </update>
+    <update id="deleteProduct" parameterType="bo.ucb.edu.ingsoft.dto.ProductDelete">
+        UPDATE  product
+        SET tx_status = #{txStatus},
+            tx_id = #{txId}, tx_host= #{txHost}, tx_user_id= #{txUserId}, tx_date= #{txDate}
+        WHERE product_id = #{productId}
+
+    </update>
+    <select id="getProductbyId" parameterType="int" resultType="bo.ucb.edu.ingsoft.dto.ProductGetId">
+        SELECT
+               a.stock as stock,
+               a.price as price,
+               a.image as image,
+               a.product_name as productName
+        FROM product a, tag b, brand c
+        WHERE a.product_id = #{productId} AND a.brand_id = c.brand_id AND a.tag_id=b.tag_id
+        AND a.tx_status=1
+    </select>
+
+</mapper>

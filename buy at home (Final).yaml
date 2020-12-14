@@ -1,0 +1,1008 @@
+openapi: 3.0.0
+info:
+  description: |
+    Buy at Home es una pagina web basada en e-commerce
+  version: "1.0.0"
+  title: Buy at Home
+  
+servers:
+  - url: 'http'
+tags:
+  - name: users
+    
+  - name: products
+    
+  - name: order
+    
+  - name: others
+    
+paths:
+  /products:
+    get:
+      tags:
+      - products
+      summary: Mostrar el catalogo de productos
+      description: Aracely Condori
+      operationId: getProducts
+      responses:
+        200:
+          description: Mostrar Producto correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producto'
+        400:
+          description: Valor de estado no valido
+        404:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+    
+    post:
+      tags:
+      - products
+      summary: Agrega nuevo producto
+      description: Miguel llusco
+      operationId: addProduct
+      parameters:
+      - in: body
+        name: body
+        schema:
+            $ref: '#/components/schemas/Producto'
+        required: true
+      
+      responses:
+        200:
+          description: Producto Añadido Correctamente
+        400:
+          description: Valor de estado no valido
+        401:
+          description: No autenticado
+        405:
+          description: Entrada invalida
+        500:
+          description: Error interno del servidor      
+
+  /products/{productId}:
+    get:
+      tags:
+      - products
+      summary: Buscar el nombre de producto
+      description: Aracely Condori
+      operationId: getProductId
+      parameters:
+        - name: productId
+          in: path
+          description: Se realiza la busqueda mediante el id del producto
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Mostrar Producto correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '400':
+          description: Invalid product name supplied
+        '404':
+          description: producto not found
+          
+    patch:
+      tags: 
+      - products
+      summary: Edita el precio y stock del producto mediante el id del producto
+      description: Miguel llusco
+      operationId: updateProduct
+      parameters:
+      - name: productId
+        in: path
+        schema:
+            type: integer
+        description: ID del producto
+        required: true
+        
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditarProducto'
+        description: Datos que se puedes editar del producto
+        
+      responses:
+        200:
+          description: Producto editado correctamente
+        400:
+          description: Se proporciono un ID no valido
+        401:
+          description: No autenticado
+        404:
+          description: Producto no encontrado
+        500:
+          description: Error interno del servidor
+          
+    delete:
+      tags:
+      - products
+      summary: Elimina un producto mediante el id del producto
+      description: Miguel llusco
+      operationId: deleteProduct
+      
+      parameters:
+      - name: productId
+        in: path
+        schema:
+            type: integer
+        description: ID del producto
+        required: true
+            
+      responses:
+        200:
+          description: Producto eliminado correctamente
+        400:
+          description: Se proporciono un ID no valido
+        401:
+          description: No autenticado
+        404:
+          description: Producto no encontrado
+        500:
+          description: Error interno del servidor
+  
+  /products/category:
+    get:
+      tags:
+      - products
+      summary: Muestra  os Productos de una determinada catagoria (computadoras portatiles)
+      description: Aracely Condori
+      operationId: getProductsCategory 
+      responses:
+        200:
+          description: Mostrar Producto correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producto'
+        400:
+          description: Valor de estado no valido
+        404:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+
+  /BranchOffice:
+    get:
+      tags:
+      - others
+      summary: mostrara la sucursal de la tienda
+      description: Aracely Condori
+      operationId: getBranchOffice
+      responses:
+        200:
+          description: Sucursal Añadido Correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/toreBranch'
+        500:
+          description: Error interno del servidor
+  
+  
+  
+      
+  
+  /orders:
+    get:
+      tags:
+      - order
+      summary: Lista todos los pedidos realizados
+      description: Miguel llusco
+      operationId: getOrders
+      
+      responses:
+        200:
+          description: Pedidos obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DetallePedido'
+        400:
+          description: Valor de estado no valido
+        401:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+          
+    post:
+      tags:
+      - order
+      summary: Realiza el pedido del producto
+      description: Fabricio Crespo
+      operationId: productOrder
+      parameters:
+      - in: body
+        name: body
+        schema:
+            $ref: '#/components/schemas/Pedido'
+        required: true
+      
+      responses:
+        200:
+          description: Pedido exitoso
+        400:
+          description: Valor de estado no valido
+        401:
+          description: No autenticado
+        405:
+          description: Entrada invalida
+        500:
+          description: Error interno del servidor
+          
+  /orders/{orderId}:
+    get:
+      tags:
+      - order
+      summary: Muestra el detalle del pedido mediante el id del pedido
+      description: Miguel llusco
+      operationId: getOrderId
+      
+      parameters:
+      - name: orderId
+        in: path
+        schema:
+            type: integer
+        description: ID del pedido
+        required: true
+        
+        
+      responses:
+        200:
+          description: Pedido obtenido correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DetallePedido'
+        400:
+          description: Se proporciono un ID no valido
+        401:
+          description: No autenticado
+        404:
+          description: Pedido no encontrado
+        500:
+          description: Error interno del servidor
+  
+  /orders/state/{orderId}:        
+    patch:
+      tags:
+      - order
+      summary: Cambia el estado del pedido mediante el id del pedido
+      description: Miguel llusco
+      operationId: updateOrderState
+      parameters:
+      - name: orderId
+        in: path
+        schema:
+            type: integer
+        description: ID del pedido
+        required: true
+        
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstadoPedido'
+        description: Estado del pedido
+        
+      responses:
+        200:
+          description: Estado de pedido cambiado correctamente
+        400:
+          description: Se proporciono un ID no valido
+        401:
+          description: No autenticado
+        404:
+          description: Pedido no encontrado
+        500:
+          description: Error interno del servidor
+          
+    get:
+      tags:
+      - order
+      summary: Comprueba el estado de los pedidos
+      description: Fabricio Crespo
+      operationId: statusOrder
+      parameters:
+      - name: orderId
+        in: path
+        schema:
+            type: integer
+        description: ID del pedido
+        required: true
+      responses:
+        200:
+          description: Estado del pedido
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DetallePedido'
+        400:
+          description: Valor de estado no valido
+        401:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+          
+  /orders/adress/{orderId}:  
+    patch:
+      tags:
+      - order
+      summary: Cambia la direccion de entrega del pedido mediante el id del pedido
+      description: Miguel llusco
+      operationId: updateOrderAdress
+      
+      parameters:
+      - name: orderId
+        in: path
+        schema:
+            type: integer
+        description: ID del pedido
+        required: true
+        
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Direccion'
+        description: Estado del pedido
+        
+      responses:
+        200:
+          description: Direccion cambiado correctamente
+        400:
+          description: Se proporciono un ID no valido
+        401:
+          description: No autenticado
+        404:
+          description: Pedido no encontrado
+        500:
+          description: Error interno del servidor
+          
+          
+          
+  /orders/products/{productId}:
+    post:
+      tags:
+      - order
+      summary: Agrega nuevo producto al carrito
+      description: Fabricio Crespo
+      operationId: addProductToCart
+      parameters:
+      - name: productId
+        in: path
+        schema:
+            type: integer
+        description: ID del producto
+        required: true
+      
+      responses:
+        200:
+          description: Producto Añadido Correctamente
+        400:
+          description: Valor de estado no valido
+        401:
+          description: No autenticado
+        405:
+          description: Entrada invalida
+        500:
+          description: Error interno del servidor
+  
+  /orders/payCard:
+    post:
+      tags:
+      - order
+      summary: Realiza el pago por tarjeta de debito
+      description: Fabricio Crespo
+      operationId: payCard
+      parameters:
+      - in: body
+        name: body
+        schema:
+            $ref: '#/components/schemas/PayCard'
+        required: true
+      
+      responses:
+        200:
+          description: Pago Exitoso
+        400:
+          description: Valor de estado no valido
+        401:
+          description: No autenticado
+        405:
+          description: Entrada invalida
+        500:
+          description: Error interno del servidor
+  
+  /orders/voucher:
+    get:
+      tags:
+      - order
+      summary: Lista todos los comporbantes de pago
+      description: Eddie Alba
+      operationId: getVouchers
+      responses:
+        200:
+          description: Comprobantes obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetBill'
+        400:
+          description: Valor de estado no valido
+        401:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+  
+  /orders/voucher/{orderId}:
+    get:
+      tags:
+      - order
+      summary: Entrega del comprobante de pago
+      description: Eddie Alba
+      operationId: getBill
+      parameters:
+      - name: orderId
+        in: path
+        schema:
+            type: integer
+        description: ID del pedido
+        required: true
+      responses:
+        200:
+          description: Comprobante de pago
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetBill'
+        400:
+          description: Valor de estado no valido
+        401:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+  
+          
+  /orders/cancel/{orderId}:
+    patch:
+      tags:
+      - order
+      summary: Cancelo el pedido
+      description: Fabricio Crespo
+      operationId: cancelOrder
+      parameters:
+      - name: orderId
+        in: path
+        schema:
+            type: integer
+        description: ID del pedido
+        required: true
+        
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstadoPedido'
+        description: Estado del pedido
+        
+      responses:
+        200:
+          description: Pedido Cancelado
+        400:
+          description: Se proporciono un ID no valido
+        401:
+          description: No autenticado
+        404:
+          description: Pedido no encontrado
+        500:
+          description: Error interno del servidor
+      
+      
+          
+          
+  /users/signup:
+    post:
+      tags:
+      - users
+      summary: Registro de usuario
+      description: Gabriel Cordon
+      operationId: addUser
+      parameters:
+      - in: body
+        name: body
+        schema:
+           $ref: '#/components/schemas/UsuarioNuevo'
+        required: true
+      responses:
+        201:
+          description: Usuario creado correctamente
+        401:
+          description: No autenticado
+        "500":
+          description: Error interno del servidor
+        
+  /users/edit/{userId}:
+    patch:
+        tags:
+        - users
+        summary: Edita la información de un usuario existente
+        description: Gabriel Cordon
+        operationId: updateUser
+        parameters:
+        - name: userId
+          in: path
+          schema:
+            type: integer
+            description: ID del usuario
+          required: true
+        
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userEdit'
+          description: Datos posibles a editar
+  
+        responses:
+          200:
+            description: Usuario actualizado correctamente
+          400:
+            description: Se proporciono un ID no valido
+          401:
+            description: No autenticado
+          405:
+            description: Excepción de validación
+          500:
+            description: Error interno del servidor
+            
+  /users/orders/{userId}:
+    get:
+      tags:
+      - users
+      summary: Lista todos los pedidos realizados por el usuario
+      description: Gabriel Cordon
+      operationId: getUserOrders
+      parameters:
+      - name: userId
+        in: path
+        schema:
+            type: integer
+        required: true
+      responses:
+        200:
+          description: Pedidos recuperados correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DetallePedido'
+        400:
+          description: Valor no valido
+        401:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+  
+  /users/orders/{orderId}:
+    get:
+      tags:
+      - users
+      summary: Lista un pedido especifico realizado por el usuario
+      description: Gabriel Cordon
+      operationId: getOrder
+      parameters:
+      - name: orderId
+        in: path
+        schema:
+           type: integer
+        required: true
+      responses:
+        200:
+          description: Pedido recuperado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DetallePedido'
+        400:
+          description: Valor no valido
+        401:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+          
+  /contacts:
+    get:
+      tags:
+      - others
+      summary: Lista los datos necesarios para Atencion al Cliente
+      description: Eddie Alba
+      operationId: getContact    
+      responses:
+        200:
+          description: Obtener la informacion de contacto de la empresa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contactos'
+        401:
+          description: No autenticado
+        500:
+          description: Error interno del servidor
+          
+  
+
+components:
+  schemas:
+    
+    Contactos:
+      type: object
+      required:
+        - cellphone
+        - phone
+        - email
+      properties:
+        cellphone:
+          type: string
+          example: +591 87979878
+        phone:
+          type: string
+          example: 2 2834567
+        email:
+          type: string
+          example: buyathome@gmail.com
+       
+    toreBranch:
+      type: object
+      required: 
+        - storename
+        - description
+        - zone
+        - street
+        - storenumber
+      properties:
+        storename:
+          type: string
+        description:
+          type: string
+        zone:
+          type: string
+        street:
+          type: string 
+        storenumber:
+          type: integer
+    
+    DetallePedido:
+      type: object
+      required: 
+        - orderId
+        - date
+        - total
+        - street
+        - zone
+        - Nro
+        - status
+      properties:
+        orderId:
+          type: integer
+          example: 132133
+        date:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/Usuario'
+        state:
+          $ref: '#/components/schemas/StatusOrder'
+        status:
+          type: boolean
+        zone:
+          type: string
+          example: Sopocachi
+        street:
+          type: string
+          example: Pedro Salazar
+        Nro:
+          type: integer
+          example: 10
+        product:
+          type: array
+          items:
+             $ref: '#/components/schemas/ProductoPedido'
+        total:
+          type: integer
+          example: 14500
+          
+    Pedido:
+      type: object
+      required: 
+        - orderId
+        - date
+        - total
+        - street
+        - zone
+        - Nro
+        - state
+      properties:
+        zone:
+          type: string
+          example: Sopocachi
+        street:
+          type: string
+          example: Pedro Salazar
+        Nro:
+          type: integer
+          example: 10
+        product:
+          type: array
+          items:
+             $ref: '#/components/schemas/ProductoPedido'     
+          
+    Usuario:
+      type: object
+      required:
+        - userId
+        - firstname
+        - lastname
+        - email
+      properties:
+        userId:
+          type: integer
+          example: 313
+        firstname:
+          type: string
+          example: Abel
+        lastname:
+          type: string
+          example: Gutierrez
+        email:          
+          type: string
+          format: email
+          example: abel@gmail.com
+     
+        
+    userEdit:
+      type: object
+      required:
+        - firstname
+        - lastname
+        - adress
+        - phone
+        - password
+      properties:
+        firstname:
+          type: string
+          example: Fernando
+        lastname:
+          type: string
+          example: Gutierrez
+        adress:
+          type: string
+          example: Obrajes
+        phone:
+          type: string
+          example: +591 78946512
+        password:    
+          type: string
+          example: a12354
+
+
+    Producto:
+      type: object
+      required: 
+        - productId
+        - brand
+        - model
+        - description
+        - category
+        - price
+        - stock
+      properties:
+        productId:
+          type: integer
+          example: 112132
+        brand:
+          type: string
+          example: Dell 
+        model:
+          type: string
+          example: Alienware M15 
+        description:
+          type: string
+          example: Computadora portatil Gamer
+        category:
+          type: string
+          example: Computadoras portatiles
+        price:
+          type: integer
+          example: 14500
+        stock:
+          type: integer
+          example: 15
+          
+    ProductoPedido:
+      type: object
+      required: 
+        - productId
+        - brand
+        - model
+        - description
+        - price
+      properties:
+        productId:
+          type: integer
+          example: 112132
+        brand:
+          type: string
+          example: Dell 
+        model:
+          type: string
+          example: Alienware M15 
+        description:
+          type: string
+          example: Computadora portatil Gamer
+        price:
+          type: integer
+          example: 14500
+    
+    EstadoPedido:
+      type: object
+      required: 
+        - status
+      properties:
+        status:
+          type: boolean
+          example: false
+          
+    EditarProducto:
+      type: object
+      required: 
+        - stock
+        - price
+      properties:
+        stock:
+          type: integer
+          example: 10
+        price:
+          type: integer
+          example: 15000
+      
+    Direccion:
+      type: object
+      required:
+        - zone
+        - street
+        - Nro
+      properties:
+        zone:
+          type: string
+          example: Sopocachi
+        street:
+          type: string
+          example: Pedro Salazar
+        Nro:
+          type: integer
+          example: 10
+          
+    StatusOrder:
+      type: object
+      required: 
+        - orderId
+        - status
+      properties:
+        orderId:
+          type: integer
+          example: 2
+        status:
+          type: string
+          example: En camino
+       
+    GetBill:
+      type: object
+      required: 
+        - orderId
+        - date
+        - total
+      properties:
+        orderId:
+          type: integer
+          example: 2132
+        date:
+          type: string
+          format: date-time
+        paycard:
+          $ref: '#/components/schemas/PayCard'
+       
+        total:
+          type: integer
+          example: 15000
+
+    PayCard:
+      type: object
+      required: 
+        - firstname
+        - lastname
+        - Card Number
+        - Security Code
+        - Date
+        - country
+      properties:
+        firstname:
+          type: string
+          example: Abel
+        lastname:
+          type: string
+          example: Gutierrez
+        Card Number:
+          type: string
+          example: 344687533215 6 
+        Security Code:
+          type: integer
+          example: 555
+        Date:
+          type: string
+          example: 2022-01
+    
+    UsuarioNuevo:
+      type: object
+      required:
+        - firstname
+        - lastname
+        - ci
+        - neighbour
+        - address
+        - email
+        - password
+        - phone
+      properties:
+       
+        firstname:
+          type: string
+          example: Abel
+        lastname:
+          type: string
+          example: Gutierrez
+        ci:
+          type: integer
+          example: 213213
+        address:
+          type: string
+          example: Sopocachi
+        phone:
+          type: string
+          example: +591 3122312
+        email:          
+          type: string
+          example: abel@gmail.com
+        password:    
+          type: string
+          example: abe12345
+       
+    
+

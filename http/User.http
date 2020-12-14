@@ -1,0 +1,46 @@
+
+POST http://localhost:8080/users/signup
+Accept: application/json
+Content-Type: application/json
+
+{
+  "firstname": "Fabricio",
+  "lastname": "Perez",
+  "phone": "+59178945098",
+  "email": "jperez@mail.com",
+  "password": "hello_there",
+  "neighbourId": 1,
+  "street": "Av. Busch",
+  "number": "123-A",
+  "reference": "Entrando media cuadra de Av. Busch"
+}
+
+###
+
+PATCH http://localhost:8080/users/edit/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "firstname": "Allen",
+  "lastname": "Cordova",
+  "phone": "+59171230898",
+  "email": "allen@mail.com",
+  "neighbourId": 1,
+  "street": "Av. 14 de Septiembre",
+  "number": "123-B",
+  "reference": "Entrando media cuadra"
+}
+
+###
+
+GET http://localhost:8080/users/1
+Accept: application/json
+
+###
+
+GET http://localhost:8080/users/1/orders
+
+###
+
+GET http://localhost:8080/users/1/orders/2

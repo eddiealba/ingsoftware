@@ -1,0 +1,11 @@
+POST http://localhost:8080/payment
+Accept: application/json
+Content-Type: application/json
+
+{
+  "firstname": "Juan",
+  "lastname": "Perez",
+  "cardNumber": "48485698",
+  "securityCode": "222",
+  "dateExpire": "838:59:59"
+}

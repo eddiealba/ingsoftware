@@ -1,0 +1,37 @@
+
+PATCH http://localhost:8080/orders/state/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "state": 5
+}
+###
+
+PATCH http://localhost:8080/orders/address/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "neighbour": "Alto Obrajes",
+  "street": "Av. 14 de Septiembre",
+  "number": "12",
+  "reference": "esquina calle 2"
+}
+
+###
+
+POST http://localhost:8080/orders/order
+Accept: application/json
+Content-Type: application/json
+
+{
+  "addressId" : 3,
+  "userId": 1,
+  "cartId": 1,
+  "deliveryId": 1,
+  "date": "1999-08-22",
+  "status": 1,
+  "state": 1
+}
+###

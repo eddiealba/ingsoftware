@@ -1,0 +1,14 @@
+###
+
+POST http://localhost:8080/cart
+Accept: application/json
+Content-Type: application/json
+
+{
+  "qtty": "4",
+  "cartId": 1,
+  "productId": 8
+
+}
+
+###

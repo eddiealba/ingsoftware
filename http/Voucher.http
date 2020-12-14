@@ -1,0 +1,35 @@
+
+POST http://localhost:8080/vouchers
+Accept: application/json
+Content-Type: application/json
+
+{
+"orderId": 1,
+"paymentId": 1,
+  "date": "2020-11-02",
+"total": 1550.5
+}
+
+###
+
+PATCH http://localhost:8080/vouchers/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "date": "2020-11-02",
+"total": 12511.5
+}
+
+###
+
+DELETE http://localhost:8080/vouchers/1
+Accept: application/json
+Content-Type: application/json
+
+{
+"txStatus": 1
+}
+
+
+###

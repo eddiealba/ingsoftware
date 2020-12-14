@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bo.ucb.edu.ingsoft.dao.AddressDao">
+
+    <insert id="create" parameterType="bo.ucb.edu.ingsoft.dto.UserCreate">
+        INSERT INTO address VALUES (null, #{neighbourId}, #{street}, #{number}, #{reference},
+        1, #{txId}, #{txHost}, #{txUserId}, #{txDate})
+    </insert>
+
+    <update id="update" parameterType="bo.ucb.edu.ingsoft.dto.UserUpdate">
+        UPDATE address SET neighbour_id = #{neighbourId}, street = #{street}, number = #{number}, reference = #{reference},
+        tx_id = #{txId}, tx_host = #{txHost}, tx_user_id = #{txUserId}, tx_date = #{txDate}
+        WHERE address_id = #{addressId} AND tx_status = 1
+    </update>
+</mapper>

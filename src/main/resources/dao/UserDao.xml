@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bo.ucb.edu.ingsoft.dao.UserDao">
+
+    <insert id="create" parameterType="bo.ucb.edu.ingsoft.dto.UserCreate">
+        INSERT INTO user VALUES (null, #{addressId}, #{firstname}, #{lastname}, #{phone}, #{email}, #{password},
+        1, #{txDate}, #{txId}, #{txHost}, #{txUserId})
+    </insert>
+
+    <update id="update" parameterType="bo.ucb.edu.ingsoft.dto.UserUpdate">
+        UPDATE user SET firstname = #{firstname}, lastname = #{lastname}, phone = #{phone}, email = #{email},
+        tx_date = #{txDate},tx_id = #{txId}, tx_host = #{txHost}, tx_user_id = #{txUserId}
+        WHERE user_id = #{userId} AND tx_status = 1
+    </update>
+
+    <select id="selectAddressId" resultType="java.lang.Integer">
+        SELECT address_id as addressId
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="findUserById" resultType="bo.ucb.edu.ingsoft.dto.UserGet">
+        SELECT u.firstname as firstname, u.lastname as lastname, u.email as email, u.phone as phone,
+        n.name as neighbour, a.street as street, a.number as number, a.reference as reference
+        FROM `user` u, `address` a, `neighbour` n WHERE u.user_id=#{userId} AND u.address_id=a.address_id AND a.neighbour_id=n.neighbour_id
+        AND u.tx_status=1 AND a.tx_status=1 AND n.tx_status=1
+        GROUP BY a.address_id;
+    </select>
+
+    <select id="findOrdersByUserId" resultType="bo.ucb.edu.ingsoft.dto.UserOrderGet">
+    SELECT o.order_id as orderId, o.date as date, o.state as state,
+     p.product_name as productName,
+     n.name as neighbour,
+     a.street as street, a.number as number,
+     x.total as total
+    FROM `order` o, `product` p, `neighbour` n, `address` a, `cart` x, `delivery` d
+    WHERE o.user_id=#{userId} AND o.address_id=a.address_id AND o.cart_id=x.cart_id AND o.delivery_id=d.delivery_id
+    AND n.neighbour_id=a.neighbour_id
+    </select>
+
+    <select id="findOrderByOrderId" resultType="bo.ucb.edu.ingsoft.dto.UserGetOrderId">
+    SELECT o.order_id as orderId, o.date as date, o.state as state, x.total as total,
+    n.name as neighbour, a.street as street, a.number as number, p.product_name as productName
+    FROM `order` o, `address` a, `neighbour` n, `product` p, `cart` x, `cart_detail` xd
+    WHERE o.user_id=#{userId} AND o.order_id=#{orderId} AND o.cart_id=x.cart_id AND xd.cart_id=x.cart_id
+    </select>
+
+</mapper>

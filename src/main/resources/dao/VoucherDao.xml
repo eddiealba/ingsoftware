@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bo.ucb.edu.ingsoft.dao.ProductDao">
+
+    <insert id="createVoucher" parameterType="bo.ucb.edu.ingsoft.model.Voucher">
+        INSERT INTO voucher
+        VALUES (
+            null, #{orderId}, #{paymentId}, #{date}, #{total},
+             1, #{txId},#{txHost}, #{txUserId}, #{txDate}
+        )
+    </insert>
+    <update id="updateVoucher" parameterType="bo.ucb.edu.ingsoft.dto.VoucherUpdate">
+        UPDATE voucher
+        SET date = #{date}, total = #{total},
+            tx_id = #{txId}, tx_host= #{txHost}, tx_user_id= #{txUserId}, tx_date= #{txDate}
+        WHERE voucher_id = #{voucherId}
+        AND tx_status=1
+    </update>
+    <update id="deleteVoucher" parameterType="bo.ucb.edu.ingsoft.dto.VoucherDelete">
+        UPDATE  voucher
+        SET tx_status = #{txStatus},
+            tx_id = #{txId}, tx_host= #{txHost}, tx_user_id= #{txUserId}, tx_date= #{txDate}
+        WHERE voucher_id = #{voucherId}
+
+    </update>
+
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bo.ucb.edu.ingsoft.dao.OrderDao">
+
+    <update id="updateAddress" parameterType="bo.ucb.edu.ingsoft.model.Address">
+        UPDATE address SET neighbour = "Alto Obrajes", street = "Av 14 de septiembre", number = "12", reference = "esquina calle 2",
+        tx_id = #{txId}, tx_host = #{txHost}, tx_user_id = #{txUserId}, tx_date = #{txDate}
+        WHERE address_id = #{addressId} AND tx_status = 1
+    </update>
+    <update id="updateOrderState" parameterType="bo.ucb.edu.ingsoft.model.Order">
+        UPDATE `order`
+        SET `state` = #{state},
+        tx_id = #{txId}, tx_host= #{txHost}, tx_user_id= #{txUserId}, tx_date= #{txDate}
+        WHERE order_id = #{orderId}
+        AND tx_status=1
+    </update>
+    <update id="updateOrderAddress" parameterType="bo.ucb.edu.ingsoft.model.Order">
+        UPDATE `order`
+        SET tx_id = #{txId}, tx_host= #{txHost}, tx_user_id= #{txUserId}, tx_date= #{txDate}
+        WHERE order_id = #{orderId}
+        AND tx_status=1
+    </update>
+    <select id="selectAddressId" resultType="java.lang.Integer">
+        SELECT address_id as addressId
+        FROM `order`
+        WHERE order_id = #{orderId}
+    </select>
+    <insert id="createOrder" parameterType="bo.ucb.edu.ingsoft.dto.MakeOrder">
+        INSERT INTO `order`
+        VALUES (
+            null, #{addressId},#{userId},#{cartId},#{deliveryId},"1999-08-22",#{status},#{state},
+            1, #{txId},#{txHost}, #{txUserId}, #{txDate}
+        )
+    </insert>
+
+</mapper>
