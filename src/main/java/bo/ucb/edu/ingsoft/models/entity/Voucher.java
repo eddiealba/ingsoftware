@@ -20,7 +20,10 @@ public class Voucher implements Serializable {
     @Column(name = "payment_id")
     private Integer paymentId;
 
+    @Temporal(TemporalType.DATE)
     private Date date;
+
+    @Column(nullable = false)
     private BigDecimal total;
 
     @Column(name = "tx_status")
