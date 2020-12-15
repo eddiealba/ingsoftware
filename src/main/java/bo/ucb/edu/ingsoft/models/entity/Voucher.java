@@ -1,6 +1,8 @@
 package bo.ucb.edu.ingsoft.models.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,16 +16,21 @@ public class Voucher implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer voucherId;
 
+    @NotEmpty
     @Column(name = "order_id")
     private Integer orderId;
 
+    @NotEmpty
     @Column(name = "payment_id")
     private Integer paymentId;
 
+    @NotEmpty
     @Temporal(TemporalType.DATE)
     private Date date;
 
     @Column(nullable = false)
+    @NotEmpty(message ="no puede estar vacio")
+    @Size(max=12)
     private BigDecimal total;
 
     @Column(name = "tx_status")
@@ -41,10 +48,10 @@ public class Voucher implements Serializable {
     @Column(name = "tx_date")
     private Date txDate;
 
-    @PrePersist
+    /*@PrePersist
     public void prePersist(){
         date = new Date();
-    }
+    }*/
 
     public Integer getVoucherId() {
         return voucherId;

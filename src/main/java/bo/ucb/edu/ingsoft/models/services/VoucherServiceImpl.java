@@ -3,6 +3,8 @@ package bo.ucb.edu.ingsoft.models.services;
 import bo.ucb.edu.ingsoft.models.dao.IVoucherDao;
 import bo.ucb.edu.ingsoft.models.entity.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,12 @@ public class VoucherServiceImpl implements IVoucherService{
     @Transactional(readOnly = true)
     public List<Voucher> findAll() {
         return (List<Voucher>) voucherDao.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Voucher> findAll(Pageable pageable){
+        return voucherDao.findAll(pageable);
     }
 
     @Override
