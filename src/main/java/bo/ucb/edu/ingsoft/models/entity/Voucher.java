@@ -2,6 +2,7 @@ package bo.ucb.edu.ingsoft.models.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,7 +25,8 @@ public class Voucher implements Serializable {
     @Column(name = "payment_id")
     private Integer paymentId;
 
-    @NotEmpty
+
+    @NotNull(message = "no puede estar vacio")
     @Temporal(TemporalType.DATE)
     private Date date;
 
