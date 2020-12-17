@@ -16,7 +16,10 @@ spring:
   jackson:
     time-zone: America/Caracas
     locale: es_BO
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 logging:
   level:
     com:
@@ -28,3 +31,5 @@ mybatis:
     default-fetch-size: 100
     default-statement-timeout: 30
   mapper-locations: classpath:/dao/*Dao.xml
+
+
