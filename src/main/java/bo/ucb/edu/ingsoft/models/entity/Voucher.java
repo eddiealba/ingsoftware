@@ -50,10 +50,10 @@ public class Voucher implements Serializable {
     @Column(name = "tx_date")
     private Date txDate;
 
-    /*@PrePersist
+    @PrePersist
     public void prePersist(){
-        date = new Date();
-    }*/
+        txDate = new Date();
+    }
 
     public Integer getVoucherId() {
         return voucherId;

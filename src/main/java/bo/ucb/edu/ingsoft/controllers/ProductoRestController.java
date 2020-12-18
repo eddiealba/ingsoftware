@@ -109,7 +109,7 @@ public class ProductoRestController {
 			productoNew = productoService.save(producto);
 		} catch(DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			response.put("error", "No se completaron los espacios requeridos o introdujo datos erroneos");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
@@ -118,7 +118,7 @@ public class ProductoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/productos/{productoId}")
+	@PutMapping("/productos/{productId}")
 	public ResponseEntity<?> update(@Valid @RequestBody Producto producto, BindingResult result, @PathVariable Integer productId) {
 
 		Producto productoActual = productoService.findById(productId);
@@ -162,7 +162,7 @@ public class ProductoRestController {
 
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el producto en la base de datos");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			response.put("error", "Los espacios requeridos no pueden estar vacios o introdujo datos erroneos");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
